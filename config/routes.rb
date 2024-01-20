@@ -23,7 +23,5 @@ Rails.application.routes.draw do
   resource :invitation, only: [:new, :create]
   
   get "home", to:"home#index"
-
-  root "root#index"
   
 end

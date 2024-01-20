@@ -172,6 +172,8 @@ GEM
     public_suffix (5.0.4)
     puma (6.4.2)
       nio4r (~> 2.0)
+    pundit (2.3.1)
+      activesupport (>= 3.0.0)
     pwned (2.4.1)
     racc (1.7.3)
     rack (3.0.8)
@@ -281,6 +283,7 @@ DEPENDENCIES
   name_of_person (~> 1.1, >= 1.1.2)
   pg (~> 1.1)
   puma (>= 5.0)
+  pundit (~> 2.3)
   pwned
   rails (~> 7.1.2)
   redis (>= 4.0.1)

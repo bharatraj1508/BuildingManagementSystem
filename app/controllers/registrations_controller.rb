@@ -8,6 +8,7 @@ class RegistrationsController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    @user.roles = "superadmin"
 
     if @user.save
       session_record = @user.sessions.create!
@@ -23,7 +24,7 @@ class RegistrationsController < ApplicationController
   private
     def user_params
       # params.permit(:first_name, :last_name, :email, :password, :password_confirmation)
-      params.require(:user).permit(:name, :email, :roles, :password, :password_confirmation)
+      params.require(:user).permit(:name, :email, :password, :password_confirmation)
     end
 
     def send_email_verification

@@ -1,29 +1,21 @@
-<p style="color: green"><%= notice %></p>
-
-<p>Signed as <%= Current.user.email %></p>
-
-<h2>Login and verification</h2>
-
-<div>
-  <%= link_to "Change password", edit_password_path %>
+<div class="dark:text-white">
+  <div class="flex items-center justify-center">
+  <h3 class="text-5xl font-extrabold">
+    Welcome <%= Current.user.name%>
+  </h3>
 </div>
 
-<div>
-  <%= link_to "Change email address", edit_identity_email_path %>
+<div class="flex flex-col items-center mt-20 space-y-8">
+  <h3 class="text-2xl font-bold">
+    Access history
+  </h3>
+  <ul class="text-xl list-disc space-y-2">
+    <li>
+      <%= link_to "Devices & Sessions", sessions_path, class: "underline text-blue-600 visited:text-purple-600" %>
+    </li>
+    <li>
+      <%= link_to "Activity Log", authentications_events_path, class: "underline text-blue-600 visited:text-purple-600" %>
+    </li>
+  </ul>
 </div>
-
-<div>
-  <%= link_to "Send invitation", new_invitation_path %>
 </div>
-
-<h2>Access history</h2>
-
-<div>
-  <%= link_to "Devices & Sessions", sessions_path %>
-</div>
-
-<div>
-  <%= link_to "Activity Log", authentications_events_path %>
-</div>
-
-<br>

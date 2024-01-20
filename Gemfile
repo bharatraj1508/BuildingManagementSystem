@@ -77,3 +77,5 @@ gem 'authentication-zero', '~> 3.0', '>= 3.0.2'
 # Use Pwned to check if a password has been found in any of the huge data breaches [https://github.com/philnash/pwned]
 gem "pwned"
 gem 'name_of_person', '~> 1.1', '>= 1.1.2'
+
+gem "pundit", "~> 2.3"
