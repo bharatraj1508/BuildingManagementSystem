@@ -4,11 +4,9 @@ class InvitationsController < ApplicationController
   end
 
   def create
-
-    authorize [:admin, Current.user]
-
-
     @user = User.create_with(user_params).find_or_initialize_by(email: params[:email])
+
+    authorize [:admin, @user]
 
     if @user.save
       send_invitation_instructions
