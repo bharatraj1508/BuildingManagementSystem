@@ -1,0 +1,76 @@
+<div class="overflow-x-auto shadow-lg sm:rounded-lg">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <tbody>
+            <thead class="text-gray-700 uppercase dark:text-white">
+                <tr class="border-b border-gray-200 dark:border-gray-700">
+                    <th class="px-6 py-3 bg-white dark:bg-gray-800 border-r dark:border-r-gray-700">
+                        user details
+                    </th>
+                    <th class="px-6 py-4 bg-white dark:bg-gray-800">
+                        information
+                    </th>
+                </tr>
+            </thead>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-200 dark:text-white dark:bg-gray-800">
+                    First Name
+                </th>
+                <td class="px-6 py-4 bg-gray-200 dark:bg-gray-800">
+                    <%= user.first_name%>
+                </td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-100 dark:text-white dark:bg-gray-700">
+                    Last Name
+                </th>
+                <td class="px-6 py-4 bg-gray-100 dark:bg-gray-700">
+                    <%= user.last_name%>
+                </td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-200 dark:text-white dark:bg-gray-800">
+                    Email
+                </th>
+                <td class="px-6 py-4 bg-gray-200 dark:bg-gray-800">
+                    <%= user.email%>
+                </td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-100 dark:text-white dark:bg-gray-700">
+                    Email Verified
+                </th>
+                <td class="px-6 py-4 bg-gray-100 dark:bg-gray-700">
+                    <% if user.verified%>
+                        Yes
+                    <% else %>
+                        No
+                    <% end %>
+                </td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-200 dark:text-white dark:bg-gray-800">
+                    Account Created on
+                </th>
+                <td class="px-6 py-4 bg-gray-200 dark:bg-gray-800">
+                    <%= user.created_at.strftime("%d %b, %Y")%>
+                </td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-100 dark:text-white dark:bg-gray-700">
+                    Account Updated on
+                </th>
+                <td class="px-6 py-4 bg-gray-100 dark:bg-gray-700">
+                    <%= user.updated_at.strftime("%d %b, %Y")%>
+                </td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-200 dark:text-white dark:bg-gray-800">
+                    User Group
+                </th>
+                <td class="px-6 py-4 capitalize bg-gray-200 dark:bg-gray-800">
+                    <%= user.roles%>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

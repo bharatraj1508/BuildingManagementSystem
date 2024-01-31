@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
 
   include Pundit::Authorization
+  include Pagy::Backend
 
   before_action :set_current_request_details
   before_action :authenticate
@@ -34,7 +35,7 @@ class ApplicationController < ActionController::Base
     end
 
     def user_not_authorized(exception)
-      flash[:alert] = "You are not authorize create any user"
-      redirect_back(fallback_location: new_invitation_path)
+      flash[:alert] = "Your account is not authorize for this action."
+      redirect_back(fallback_location: home_path)
     end
 end

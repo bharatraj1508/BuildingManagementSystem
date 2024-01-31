@@ -79,3 +79,7 @@ gem "pwned"
 gem 'name_of_person', '~> 1.1', '>= 1.1.2'
 
 gem "pundit", "~> 2.3"
+
+gem 'pg_search'
+
+gem 'pagy'

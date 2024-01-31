@@ -1,6 +1,7 @@
 class InvitationsController < ApplicationController
   def new
     @user = User.new
+    authorize [:admin, @user]
   end
 
   def create
@@ -18,7 +19,21 @@ class InvitationsController < ApplicationController
 
   private
     def user_params
-      params.permit(:name, :email, :roles).merge(password: SecureRandom.base58, verified: true)
+      params.permit( 
+        :name,
+        :email,
+        :roles,
+        :phone,
+        :work,
+        :emergency_person_one,
+        :emergency_person_one_number,
+        :emergency_person_two,
+        :emergency_person_two_number,
+        :vehicle_company,
+        :vehicle_model,
+        :vehicle_color,
+        :vehicle_plate_number
+        ).merge(password: SecureRandom.base58, verified: true)
     end
 
     def send_invitation_instructions

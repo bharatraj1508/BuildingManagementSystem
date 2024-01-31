@@ -1,0 +1,92 @@
+<div class="px-24 py-10">
+    <%= form_with(url: search_result_path) do |form| %>
+        <div data-controller="dropdown" class="flex">
+            <label for="search-dropdown" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Your Email</label>
+            <div>
+                <%= form.select :search_category, options_for_select(@search_categories, :selected => params[:category]), {}, { class: "capitalize flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600" } %>
+            </div>
+            
+            <div class="relative w-full">
+                <%= form.text_field :search_value ,required: true, class: "block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500", placeholder: "Search Name, Email, Roles, Phone Number..." %>
+                <%= form.submit "search", class: "absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" %>
+            </div>
+        </div>
+    <% end %>
+</div>
+
+<div class="overflow-x-auto shadow-md sm:rounded-lg p-4">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <caption class="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+                All Users List
+            </caption>
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        <%= link_to "User Id", :sort => "id"%>
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        <%= link_to "Name", :sort => "first_name"%>
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Email
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        <%= link_to "Roles", :sort => "roles"%>
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        <%= link_to "User Created at", :sort => "created_at"%>
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        <%= link_to "User Updated at", :sort => "updated_at"%>
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        <span class="sr-only">Edit</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @users.each do |user| %>
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <td class="px-6 py-4">
+                            <%= user.id %>
+                        </td>
+                        <td class="px-6 py-4">
+                            <%= user.name %>
+                        </td>
+                        <td class="px-6 py-4">
+                            <%= user.email %>
+                        </td>
+                        <td class="px-6 py-4">
+                            <%= user.roles %>
+                        </td>
+                        <td class="px-6 py-4">
+                            <%= user.created_at.strftime("%d %b, %Y")%>
+                        </td>
+                        <td class="px-6 py-4">
+                            <%= user.updated_at.strftime("%d %b, %Y")%>
+                        </td>
+                        <td class="text-center">
+                            <div class="font-medium flex flex-row space-x-6 text-blue-600 dark:text-blue-500">
+                                <div class="hover:underline">
+                                    <%= link_to "View", profile_path(user) %>
+                                </div>
+                                <div class="hover:underline">
+                                    <%= link_to "Edit", edit_profile_path(user.id) %>
+                                </div>
+                                <% if policy([:admin, user]).destroy? %>
+                                    <div class="hover:underline">
+                                        <%= button_to "Delete", profile_path(user), method: :delete, data: {turbo_confirm: "Are you sure you want to permanently delete this user ?" } %>
+                                    </div>
+                                <% end %>
+                            </div>
+                        </td>
+                    </tr>
+                <% end %>
+        </tbody>
+    </table>
+</div>
+
+<div class="flex items-center justify-center p-8">
+    <%== pagy_nav(@pagy) %>
+</div>
+

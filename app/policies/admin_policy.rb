@@ -1,4 +1,4 @@
-class AdminPolicy < Struct.new(:user, :admin)
+class AdminPolicy < ApplicationPolicy
     attr_reader :user, :record
   
     def initialize(user, record)
@@ -16,4 +16,4 @@ class AdminPolicy < Struct.new(:user, :admin)
     def admin
       return true if user.roles == "admin"
     end
-end
+  end

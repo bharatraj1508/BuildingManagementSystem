@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_14_103600) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_30_193642) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -22,6 +22,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_14_103600) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_events_on_user_id"
+  end
+
+  create_table "pg_search_documents", force: :cascade do |t|
+    t.text "content"
+    t.string "searchable_type"
+    t.bigint "searchable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -42,6 +51,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_14_103600) do
     t.string "first_name"
     t.string "last_name"
     t.string "roles"
+    t.jsonb "contact_details", default: {}
+    t.jsonb "vehicle_details", default: {}
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

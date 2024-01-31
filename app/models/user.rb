@@ -1,7 +1,35 @@
 class User < ApplicationRecord
+  include PgSearch::Model
+  pg_search_scope :search_by_name, 
+                  against: [:first_name, :last_name], 
+                  using: {
+                    tsearch: { prefix: true }
+                  }             
+  pg_search_scope :search_by_email, 
+                  against: [:email],
+                  using: {
+                    tsearch: { prefix: true }
+                  }
+  pg_search_scope :search_by_roles, 
+                  against: [:roles],
+                  using: {
+                    tsearch: { prefix: true }
+                  }
+  pg_search_scope :search_by_phone, 
+                  against: :contact_details,
+                  using: {
+                    tsearch: { prefix: true }
+                  }
+  pg_search_scope :search_all, 
+                  against: [:email, :first_name, :last_name, :roles, :contact_details, :vehicle_details],
+                  using: {
+                    tsearch: { prefix: true }
+                  }
+
   has_secure_password
   has_person_name
-  after_initialize :set_defaults
+  store_accessor :contact_details, :phone, :work, :emergency_person_one, :emergency_person_one_number, :emergency_person_two, :emergency_person_two_number
+  store_accessor :vehicle_details, :vehicle_company, :vehicle_model, :vehicle_color, :vehicle_plate_number
 
   generates_token_for :email_verification, expires_in: 2.days do
     email
@@ -40,7 +68,4 @@ class User < ApplicationRecord
     events.create! action: "email_verified"
   end
 
-  def set_defaults
-    roles = "superadmin"
-  end
 end

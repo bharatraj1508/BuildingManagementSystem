@@ -21,6 +21,10 @@ Rails.application.routes.draw do
   end
   
   resource :invitation, only: [:new, :create]
+
+  resources :profiles, only: [ :index, :show, :edit, :update, :destroy]
+
+  post "search_result", to: "profiles#search"
   
   get "home", to:"home#index"
   

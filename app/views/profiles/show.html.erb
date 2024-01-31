@@ -1,0 +1,59 @@
+<div class="mb-20">
+    <div class="border border-gray-150 py-8 mx-24 px-20 flex flex-row justify-between bg-white shadow-2xl rounded-lg dark:bg-gray-800 dark:border-gray-700">
+        <div class="flex flex-row space-x-8">
+            <div class="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                <svg class="absolute w-12 h-12 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+            </div>
+            <h1 class ="text-4xl text-transparent bg-clip-text font-extrabold bg-gradient-to-r to-emerald-600 from-sky-700 dark:bg-gradient-to-r dark:to-emerald-600 dark:from-sky-400"><%= @user.name %></h1>
+        </div>
+
+        <%# tab button for navigating to different profile sections %>
+
+        <ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
+            <li class="me-2 inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300">
+                <% if @details == "user_details"%>
+                <div class="text-blue-500">
+                    <%= link_to "User Details", profile_path(@user, details: "user_details") %>
+                </div>
+                <% else %>
+                    <%= link_to "User Details", profile_path(@user, details: "user_details") %>
+                <% end %>
+            </li>
+            <li class="me-2 inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300">
+                <% if @details == "contact_details"%>
+                <div class="text-blue-500">
+                    <%= link_to "Contact Details", profile_path(@user, details: "contact_details") %>
+                </div>
+                <% else %>
+                    <%= link_to "Contact Details", profile_path(@user, details: "contact_details") %>
+                <% end %>
+            </li>
+            <li class="me-2 inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300">
+                <% if @details == "emergency_contact_details"%>
+                <div class="text-blue-500">
+                    <%= link_to "Emergency Contact Details", profile_path(@user, details: "emergency_contact_details") %>
+                </div>
+                <% else %>
+                    <%= link_to "Emergency Contact Details", profile_path(@user, details: "emergency_contact_details") %>
+                <% end %>
+            </li>
+            <% if @user.vehicle_details.present?%>
+            <li class="me-2 inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300">
+                <% if @details == "vehicle_information"%>
+                <div class="text-blue-500">
+                    <%= link_to "Vehicle Details", profile_path(@user, details: "vehicle_information") %>
+                </div>
+                <% else %>
+                    <%= link_to "Vehicle Details", profile_path(@user, details: "vehicle_information") %>
+                <% end %>
+            </li>
+            <% end %>
+        </ul>
+
+        <%= link_to "Edit", edit_profile_path(@user), class: "self-end text-white bg-nav-button hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-2xl text-md px-6 py-1.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" %>
+    </div>
+
+    <div class="mt-16 mx-28 px-8 space-y-20">
+        <%= render partial: @details, locals: { user: @user } %>
+    </div>        
+</div>
