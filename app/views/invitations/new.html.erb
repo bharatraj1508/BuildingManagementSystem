@@ -1,7 +1,7 @@
 <div class="max-w-3xl mx-auto px-4">
   <div class="mt-10">
     <div class="w-full p-4 bg-body-card border border-gray-200 rounded-lg shadow-2xl sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
-      <%= form_with(url: invitation_path) do |form| %>
+      <%= form_with( url: invitation_path) do |form| %>
         <h5 class="text-xl font-medium text-gray-900 dark:text-white mb-4">Create a user</h5>
         <% if @user.errors.any? %>
           <div class="mb-10" style="color: red">
@@ -27,14 +27,18 @@
 
         <%= form.label :roles, "Roles", class: "text-gray-500 text-lg"%>
         <div class="relative z-0 w-full grid grid-cols-2 gap-y-4 mt-5 mb-5 group text-gray-400 text-sm">
-          <div class="space-x-4">
-            <%= form.radio_button :roles, 'superadmin', required: true %>
-            <%= form.label :roles, "Superadmin"%>
-          </div>
-          <div class="space-x-4">
-            <%= form.radio_button :roles, 'admin', required: true %>
-            <%= form.label :roles, "Admin"%>
-          </div>
+          <% if policy([:admin, @user]).only_super_admin? %>
+            <div class="space-x-4">
+              <%= form.radio_button :roles, 'superadmin', required: true %>
+              <%= form.label :roles, "Superadmin"%>
+            </div>
+          <% end %>
+          <% if policy([:admin, @user]).only_admins? %>
+            <div class="space-x-4">
+              <%= form.radio_button :roles, 'admin', required: true %>
+              <%= form.label :roles, "Admin"%>
+            </div>
+          <% end %>
           <div class="space-x-4">
             <%= form.radio_button :roles, 'manager', required: true %>
             <%= form.label :roles, "Manager"%>
@@ -53,11 +57,22 @@
           </div>
         </div>
 
+        <div class="grid md:grid-cols-2 md:gap-6 mt-10" data-controller="building">
+          <div>
+            <%= form.label :building_ids, "Building Access", class: "text-lg text-gray-500"%>
+            <%= form.collection_select :building_ids, Current.user.buildings, :id, :name, {prompt: "Select building"}, { data: { action: "change->building#change" }, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" } %>
+          </div>
+          <div>
+            <%= form.label :unit_ids, "Belong to Unit", class: "text-lg text-gray-500"%>
+            <%= form.collection_select :unit_ids, [], :id, :unit_number, {}, { multiple: true, data: { building_target: "unitSelect" },class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" } %>
+          </div>
+        </div>
+
         <div class="mt-8">
           <%= form.label :contact_details, class: "text-lg text-gray-500"%>
             <div class="grid md:grid-cols-2 md:gap-6 mt-4">
               <div class="relative z-0 w-full mb-5 group">
-                <%= form.text_field :phone, required: true, placeholder: " ", autocomplete: "phone", class: "block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer dark:text-white dark:border-gray-600 dark:focus:border-blue-500" %>
+                <%= form.text_field :phone, placeholder: " ", autocomplete: "phone", class: "block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer dark:text-white dark:border-gray-600 dark:focus:border-blue-500" %>
                 <%= form.label :phone, class: "peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6" %>
               </div>
 
@@ -72,7 +87,7 @@
           <%= form.label :emergency_contact_details, class: "text-lg text-gray-500"%>
           <div class="grid md:grid-cols-2 md:gap-6 mt-4">
             <div class="relative z-0 w-full mb-5 group">
-              <%= form.text_field :emergency_person_one, required: true, placeholder: " ", autocomplete: "phone", class: "block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer dark:text-white dark:border-gray-600 dark:focus:border-blue-500" %>
+              <%= form.text_field :emergency_person_one, placeholder: " ", autocomplete: "phone", class: "block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer dark:text-white dark:border-gray-600 dark:focus:border-blue-500" %>
               <%= form.label "Person one name", class: "peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6" %>
             </div>
             <div class="relative z-0 w-full mb-5 group">
@@ -83,7 +98,7 @@
 
           <div class="grid md:grid-cols-2 md:gap-6 mt-4">
             <div class="relative z-0 w-full mb-5 group">
-              <%= form.text_field :emergency_person_two, required: true, placeholder: " ", autocomplete: "phone", class: "block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer dark:text-white dark:border-gray-600 dark:focus:border-blue-500" %>
+              <%= form.text_field :emergency_person_two, placeholder: " ", autocomplete: "phone", class: "block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer dark:text-white dark:border-gray-600 dark:focus:border-blue-500" %>
               <%= form.label "Peroson two name", class: "peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6" %>
             </div>
             <div class="relative z-0 w-full mb-5 group">
@@ -119,7 +134,6 @@
           </div>
         </div>
 
-
         <div class="flex justify-between mt-12">
           <%= form.submit "Create", class: "text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" %>
           <%= link_to "Cancel", home_path, class: "text-black bg-body-card border border-gray-400 hover:bg-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:text-white dark:bg-gray-600 dark:border-gray-600 dark:hover:bg-gray-800 dark:focus:ring-gray-800 dark:hover:border-gray-600" %>
@@ -128,4 +142,3 @@
     </div>
   </div>
 </div>
-

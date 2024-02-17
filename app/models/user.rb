@@ -1,5 +1,18 @@
 class User < ApplicationRecord
   include PgSearch::Model
+
+  has_many :building_users
+  has_many :buildings, through: :building_users
+  has_many :unit_users
+  has_many :units, through: :unit_users
+  has_many :sessions, dependent: :destroy
+  has_many :events, dependent: :destroy
+
+  validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :password, allow_nil: true, length: { minimum: 8 }
+  # validates :password, not_pwned: { message: "might easily be guessed" }
+
+
   pg_search_scope :search_by_name, 
                   against: [:first_name, :last_name], 
                   using: {
@@ -21,7 +34,7 @@ class User < ApplicationRecord
                     tsearch: { prefix: true }
                   }
   pg_search_scope :search_all, 
-                  against: [:email, :first_name, :last_name, :roles, :contact_details, :vehicle_details],
+                  against: [:id, :email, :first_name, :last_name, :roles, :contact_details, :vehicle_details],
                   using: {
                     tsearch: { prefix: true }
                   }
@@ -38,13 +51,6 @@ class User < ApplicationRecord
     password_salt.last(10)
   end
 
-
-  has_many :sessions, dependent: :destroy
-  has_many :events, dependent: :destroy
-
-  validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :password, allow_nil: true, length: { minimum: 8 }
-  # validates :password, not_pwned: { message: "might easily be guessed" }
 
   normalizes :email, with: -> { _1.strip.downcase }
 

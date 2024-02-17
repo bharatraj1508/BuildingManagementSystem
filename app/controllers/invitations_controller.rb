@@ -5,21 +5,36 @@ class InvitationsController < ApplicationController
   end
 
   def create
-    @user = User.create_with(user_params).find_or_initialize_by(email: params[:email])
-
+    
+    # @user = User.create_with(user_params).find_or_initialize_by(email: params[:email])
+    @user = User.new(user_params)
     authorize [:admin, @user]
 
+    if params[:building_ids] == nil
+      @user.buildings = Current.user.buildings
+    end
+
     if @user.save
-      send_invitation_instructions
-      redirect_to new_invitation_path, notice: "An invitation email has been sent to #{@user.email}"
+        send_invitation_instructions
+        redirect_to new_invitation_path, notice: "An invitation email has been sent to #{@user.email}"
     else
-      render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_entity
+    end
+
+  end
+
+  def units
+    @target = params[:target]
+    building = Building.find(params[:bid])
+    @units = building.units.pluck(:unit_number, :id)
+    respond_to do |format|
+      format.turbo_stream
     end
   end
 
   private
     def user_params
-      params.permit( 
+      params.permit(
         :name,
         :email,
         :roles,
@@ -32,7 +47,7 @@ class InvitationsController < ApplicationController
         :vehicle_company,
         :vehicle_model,
         :vehicle_color,
-        :vehicle_plate_number
+        :vehicle_plate_number, building_ids: [], unit_ids: []
         ).merge(password: SecureRandom.base58, verified: true)
     end
 

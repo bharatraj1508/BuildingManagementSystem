@@ -83,3 +83,5 @@ gem "pundit", "~> 2.3"
 gem 'pg_search'
 
 gem 'pagy'
+
+gem 'pry', '~> 0.14.2'

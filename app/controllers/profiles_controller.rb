@@ -83,7 +83,9 @@ class ProfilesController < ApplicationController
       :vehicle_company,
       :vehicle_model,
       :vehicle_color,
-      :vehicle_plate_number
+      :vehicle_plate_number,
+      building_ids: [],
+      unit_ids: []
       )
   end
 

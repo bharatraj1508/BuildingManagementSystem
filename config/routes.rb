@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
   
   get  "sign_in", to: "sessions#new"
@@ -23,8 +22,13 @@ Rails.application.routes.draw do
   resource :invitation, only: [:new, :create]
 
   resources :profiles, only: [ :index, :show, :edit, :update, :destroy]
-
   post "search_result", to: "profiles#search"
+  get "building/units", to: "invitations#units"
+
+  resources :buildings
+
+  resources :units
+  post "search_unit", to: "units#search_unit"
   
   get "home", to:"home#index"
   

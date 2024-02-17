@@ -71,6 +71,29 @@
                     <%= user.roles%>
                 </td>
             </tr>
+
+            
+            <% if user.buildings.present? %>
+                <tr class="border-b border-gray-200 dark:border-gray-700">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-100 dark:text-white dark:bg-gray-700">
+                        Belongs to building
+                    </th>
+                    <td class="px-6 py-4 capitalize bg-gray-100 dark:bg-gray-700">
+                        <%= user.buildings.map { |user_building| user_building.name }.join(', ') %>
+                    </td>
+                </tr>
+            <% end %>
+
+            <% if user.units.present? %>
+                <tr class="border-b border-gray-200 dark:border-gray-700">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-200 dark:text-white dark:bg-gray-800">
+                        Unit Number
+                    </th>
+                    <td class="px-6 py-4 capitalize bg-gray-200 dark:bg-gray-800">
+                        <%= user.units.map { |user_units| "#{user_units.unit_number} (#{user_units.building.name})" }.join(', ') %>
+                    </td>
+                </tr>
+            <% end %>
         </tbody>
     </table>
 </div>

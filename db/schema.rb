@@ -10,9 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_30_193642) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_11_021526) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "building_users", force: :cascade do |t|
+    t.bigint "building_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["building_id"], name: "index_building_users_on_building_id"
+    t.index ["user_id"], name: "index_building_users_on_user_id"
+  end
+
+  create_table "buildings", force: :cascade do |t|
+    t.string "name"
+    t.string "address"
+    t.string "building_manager"
+    t.string "building_supervisor"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "events", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -42,6 +60,25 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_30_193642) do
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
+  create_table "unit_users", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "unit_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["unit_id"], name: "index_unit_users_on_unit_id"
+    t.index ["user_id"], name: "index_unit_users_on_user_id"
+  end
+
+  create_table "units", force: :cascade do |t|
+    t.integer "unit_number"
+    t.string "parking_spot"
+    t.string "locker_number"
+    t.bigint "building_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["building_id"], name: "index_units_on_building_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
     t.string "password_digest", null: false
@@ -56,6 +93,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_30_193642) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "building_users", "buildings"
+  add_foreign_key "building_users", "users"
   add_foreign_key "events", "users"
   add_foreign_key "sessions", "users"
+  add_foreign_key "unit_users", "units"
+  add_foreign_key "unit_users", "users"
+  add_foreign_key "units", "buildings"
 end

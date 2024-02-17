@@ -1,0 +1,57 @@
+<div class="overflow-x-auto shadow-md sm:rounded-lg p-4">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <caption class="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+            All Buildings List
+        </caption>
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Name
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Address
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Building Manager
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Building Supervisor
+                </th>
+                <th scope="col" class="px-6 py-3">
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @buildings.each_with_index do |building, index| %>
+                <tr class="<%= index.odd? ? 'bg-gray-100 dark:bg-gray-700' : 'bg-white dark:bg-gray-800' %> border-b dark:border-gray-700">
+                    <td class="px-6 py-4">
+                        <%= building.name %>
+                    </td>
+                    <td class="px-6 py-4">
+                        <%= building.address %>
+                    </td>
+                    <td class="px-6 py-4 font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                        <% manager = User.find_by(id: building.building_manager) %>
+                        <%= link_to manager.name, profile_path(manager) if manager %>
+                    </td>
+                    <td class="px-6 py-4 font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                        <% supervisor = User.find_by(id: building.building_supervisor) %>
+                        <%= link_to supervisor.name, profile_path(supervisor) if supervisor %>
+                    </td>
+                    <td class="text-center">
+                        <div class="font-medium flex flex-row space-x-6 text-blue-600 dark:text-blue-500 hover:underline">
+                            <div class="hover:underline">
+                                <%= link_to "Edit", edit_building_path(building) %>
+                            </div>
+                            <% if policy([:admin, Current.user]).destroy? %>
+                                <div class="hover:underline">
+                                    <%= button_to "Delete", building_path(building), method: :delete, data: {turbo_confirm: "Are you sure you want to permanently delete this building ?" } %>
+                                </div>
+                            <% end %>
+                        </div>
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>
