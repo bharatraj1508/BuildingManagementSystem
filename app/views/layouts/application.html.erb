@@ -11,10 +11,26 @@
   </head>
 
   <body class="bg-body-light dark:bg-body-dark">
-    <%= render partial: "shared/navbar" %>
-    <div class="flex items-center justify-center m-10">
-      <%= render partial: "shared/flash" %>
-    </div>
+    <% if Current.user.present? %>
+      <div class="pl-8 pr-8 pt-8 sm:ml-64">
+        <%= render partial: "shared/navbar" %>
+      </div>
+    
+      <%= render partial: "shared/sidebar" %>
+
+      <div class="flex items-center justify-center m-4 sm:ml-64">
+        <%= render partial: "shared/flash" %>
+      </div>
+
+      <div class="sm:ml-64 mb-10">
+        <%= yield %>
+      </div>
+
+    <% else %>
+      <div class="flex items-center justify-center m-10">
+        <%= render partial: "shared/flash" %>
+      </div>
       <%= yield %>
+    <% end %>
   </body>
 </html>

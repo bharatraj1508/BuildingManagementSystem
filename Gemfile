@@ -62,6 +62,8 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
   gem 'letter_opener_web', '~> 2.0'
+  gem 'rails-erd', '~> 1.7', '>= 1.7.2'
+  gem 'faker'
 end
 
 group :test do
@@ -79,3 +81,9 @@ gem "pwned"
 gem 'name_of_person', '~> 1.1', '>= 1.1.2'
 
 gem "pundit", "~> 2.3"
+
+gem 'pg_search'
+
+gem 'pagy'
+
+gem 'pry', '~> 0.14.2'

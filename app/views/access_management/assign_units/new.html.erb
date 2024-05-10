@@ -1,0 +1,26 @@
+<div class="max-w-3xl mx-auto px-4">
+  <div class="mt-10">
+    <div class="w-full p-4 bg-body-card border border-gray-200 rounded-lg shadow-2xl sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+      <%= form_with( url: access_management_assign_units_path) do |form| %>
+        <h5 class="text-xl font-medium text-gray-900 dark:text-white mb-4">Assign Unit</h5>
+
+        <div class="flex flex-col space-y-8 mt-10" data-controller="building">
+            <div>
+                <%= form.label :building_id, "Building", class: "text-lg text-gray-500"%>
+                <%= form.collection_select :building_id, Current.user.buildings, :id, :name, {prompt: "Select building"}, { required: true, data: { action: "change->building#building_change" }, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" } %>
+            </div>
+            <div>
+                <%= form.label :unit_id, "Units", class: "text-lg text-gray-500"%>
+                <%= form.collection_select :unit_id, [], :id, :unit_number, {prompt: "Select unit"}, { required: true, data: { building_target: "unitSelect" },class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" } %>
+            </div>
+            <div>
+                <%= form.label :user_id, "Select a User", class: "text-lg text-gray-500"%>
+                <%= form.collection_select :user_id, @residents, :id, :full_name_with_email, {prompt: "Select user"}, { required: true, data: { building_target: "userSelect" },class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" } %>
+            </div>
+        <div class="flex justify-between mt-12">
+            <%= form.submit "Assign Unit", class: "text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+<div class="overflow-x-auto shadow-md sm:rounded-lg mb-20">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <tbody>
+            <thead class="text-gray-700 uppercase dark:text-white">
+                <tr class="border-b border-gray-200 dark:border-gray-700">
+                    <th class="px-6 py-3 bg-white dark:bg-gray-800 border-r dark:border-r-gray-700">
+                        contact details
+                    </th>
+                    <th class="px-6 py-4 bg-white dark:bg-gray-800">
+                        information
+                    </th>
+                </tr>
+            </thead>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-200 dark:text-white dark:bg-gray-800">
+                    Email
+                </th>
+                <td class="px-6 py-4 bg-gray-200 dark:bg-gray-800">
+                    <%= user.email%>
+                </td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-100 dark:text-white dark:bg-gray-700">
+                    Phone Number
+                </th>
+                <td class="px-6 py-4 bg-gray-100 dark:bg-gray-700">
+                    <%= user.contact_details['phone'] %>
+                </td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-200 dark:text-white dark:bg-gray-800">
+                    Work Phone
+                </th>
+                <td class="px-6 py-4 bg-gray-200 dark:bg-gray-800">
+                    <%= user.contact_details['work'] %>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

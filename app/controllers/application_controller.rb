@@ -1,9 +1,13 @@
 class ApplicationController < ActionController::Base
 
   include Pundit::Authorization
+  include Pagy::Backend
 
   before_action :set_current_request_details
   before_action :authenticate
+  helper_method :current_user
+
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   private
     def authenticate
@@ -24,5 +28,14 @@ class ApplicationController < ActionController::Base
     def set_current_request_details
       Current.user_agent = request.user_agent
       Current.ip_address = request.ip
+    end
+
+    def current_user
+      @current_user = Current.user
+    end
+
+    def user_not_authorized(exception)
+      flash[:alert] = "Your account is not authorize for this action."
+      redirect_back(fallback_location: home_path)
     end
 end

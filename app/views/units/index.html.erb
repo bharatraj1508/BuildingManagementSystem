@@ -1,0 +1,114 @@
+<div class="px-24 py-10">
+    <% if Current.user.buildings.count != 1 %>
+        <%= form_with(url: search_unit_path) do |form| %>
+        <div class="flex items-center justify-center">
+            <%= form.collection_select :building, Current.user.buildings.order(:name), :id, :name, {:prompt => true }, { selected: @selected_building&.id, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" } %>
+            <%#= form.collection_select :building, Building.all, :id, :name, {}, {multiple: true, class: "mt-1", data: {controller: "select"}} %>
+
+            <%= form.submit "search", class: "p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" %>
+        </div>
+        <% end %>
+    <% end %>
+
+    <% if @selected_building.present? %>
+        <div class="overflow-x-auto shadow-md sm:rounded-lg p-4">
+            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <caption class="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+                    All Buildings List
+                </caption>
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Unit Number
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            View Unit
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            First Name
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Last Name
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            View User
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Role
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Email
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Phone
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Parking Information
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Locker Information
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Emergency Contact Information
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Work Phone
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% @selected_building.units.each do |unit| %>
+                        <% unit.users.each_with_index do |user, index| %>
+                            <tr class="<%= index.odd? ? 'bg-gray-100 dark:bg-gray-700' : 'bg-white dark:bg-gray-800' %> border-b dark:border-gray-700">
+                                <td class="px-6 py-4">
+                                    <%= unit.unit_number %>
+                                </td>
+                                <td class="px-6 py-4 font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                    <a href="<%= edit_unit_path(unit) %>">
+                                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12c.3 0 .5 0 .8-.2.2 0 .4-.3.6-.5l.4-.7.2-.9c0 .6.2 1.2.6 1.6.4.4.9.7 1.4.7.5 0 1-.3 1.4-.7.4-.4.6-1 .6-1.6 0 .6.2 1.2.6 1.6.4.4.9.7 1.4.7.5 0 1-.3 1.4-.7.4-.4.6-1 .6-1.6a2.5 2.5 0 0 0 .6 1.6l.6.5a1.8 1.8 0 0 0 1.6 0l.6-.5.4-.7.2-.9c0-1-1.1-3.8-1.6-5a1 1 0 0 0-1-.7h-11a1 1 0 0 0-.9.6A29 29 0 0 0 4 9.7c0 .6.2 1.2.6 1.6.4.4.9.7 1.4.7Zm0 0c.3 0 .7 0 1-.3l.7-.7h.6c.2.3.5.6.8.7a1.8 1.8 0 0 0 1.8 0c.3-.1.6-.4.8-.7h.6c.2.3.5.6.8.7a1.8 1.8 0 0 0 1.8 0c.3-.1.6-.4.8-.7h.6c.2.3.5.6.8.7.2.2.6.3.9.3.4 0 .7-.1 1-.4M6 12a2 2 0 0 1-1.2-.5m.2.5v7c0 .6.4 1 1 1h2v-5h3v5h7c.6 0 1-.4 1-1v-7m-5 3v2h2v-2h-2Z"/>
+                                        </svg>
+                                    </a>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <%= user.first_name %>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <%= user.last_name %>
+                                </td>
+                                <td class="px-6 py-4 font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                    <a href="<%= profile_path(user) %>">
+                                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-width="2" d="M7 17v1c0 .6.4 1 1 1h8c.6 0 1-.4 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                        </svg>
+                                    </a>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <%= user.roles %>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <%= user.email %>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <%= user.contact_details['phone'] %>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <%= unit.parking_spot %>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <%= unit.locker_number %>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <%= user.contact_details['emergency_person_one_number'] %>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <%= user.contact_details['work'] %>
+                                </td>
+                            </tr>
+                        <% end %>
+                    <% end %>
+                </tbody>
+            </table>
+        </div>
+    <% end %>
+</div>
