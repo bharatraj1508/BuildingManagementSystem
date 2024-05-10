@@ -25,46 +25,49 @@
           <%= form.label :email, class: "peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6" %>
         </div>
 
-        <%= form.label :roles, "Roles", class: "text-gray-500 text-lg"%>
-        <div class="relative z-0 w-full grid grid-cols-2 gap-y-4 mt-5 mb-5 group text-gray-400 text-sm">
-          <% if policy([:admin, @user]).only_super_admin? %>
-            <div class="space-x-4">
-              <%= form.radio_button :roles, 'superadmin', required: true %>
-              <%= form.label :roles, "Superadmin"%>
-            </div>
-          <% end %>
-          <% if policy([:admin, @user]).only_admins? %>
-            <div class="space-x-4">
-              <%= form.radio_button :roles, 'admin', required: true %>
-              <%= form.label :roles, "Admin"%>
-            </div>
-          <% end %>
-          <div class="space-x-4">
-            <%= form.radio_button :roles, 'manager', required: true %>
-            <%= form.label :roles, "Manager"%>
-          </div>
-          <div class="space-x-4">
-            <%= form.radio_button :roles, 'supervisor', required: true %>
-            <%= form.label :roles, "Supervisor"%>
-          </div>
-          <div class="space-x-4">
-            <%= form.radio_button :roles, 'security', required: true %>
-            <%= form.label :roles, "Security"%>
-          </div>
-          <div class="space-x-4">
-            <%= form.radio_button :roles, 'resident', required: true %>
-            <%= form.label :roles, "Resident"%>
-          </div>
-        </div>
 
-        <div class="grid md:grid-cols-2 md:gap-6 mt-10" data-controller="building">
-          <div>
-            <%= form.label :building_ids, "Building Access", class: "text-lg text-gray-500"%>
-            <%= form.collection_select :building_ids, Current.user.buildings, :id, :name, {prompt: "Select building"}, { data: { action: "change->building#change" }, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" } %>
+        <div data-controller="radio">
+          <%= form.label :roles, "Roles", class: "text-gray-500 text-lg"%>
+          <div class="relative z-0 w-full grid grid-cols-2 gap-y-4 mt-5 mb-5 group text-gray-400 text-sm">
+            <% if policy([:admin, @user]).only_super_admin? %>
+              <div class="space-x-4">
+                <%= form.radio_button :roles, 'superadmin', required: true, data: { action: "click->radio#show_unit" } %>
+                <%= form.label :roles, "Superadmin"%>
+              </div>
+            <% end %>
+            <% if policy([:admin, @user]).only_admins? %>
+              <div class="space-x-4">
+                <%= form.radio_button :roles, 'admin', required: true, data: { action: "click->radio#show_unit" } %>
+                <%= form.label :roles, "Admin"%>
+              </div>
+            <% end %>
+            <div class="space-x-4">
+              <%= form.radio_button :roles, 'manager', required: true, data: { action: "click->radio#show_unit" } %>
+              <%= form.label :roles, "Manager"%>
+            </div>
+            <div class="space-x-4">
+              <%= form.radio_button :roles, 'supervisor', required: true, data: { action: "click->radio#show_unit" } %>
+              <%= form.label :roles, "Supervisor"%>
+            </div>
+            <div class="space-x-4">
+              <%= form.radio_button :roles, 'security', required: true, data: { action: "click->radio#show_unit" } %>
+              <%= form.label :roles, "Security"%>
+            </div>
+            <div class="space-x-4">
+              <%= form.radio_button :roles, 'resident', required: true, data: { action: "click->radio#show_unit" }, class: "resident" %>
+              <%= form.label :roles, "Resident"%>
+            </div>
           </div>
-          <div>
-            <%= form.label :unit_ids, "Belong to Unit", class: "text-lg text-gray-500"%>
-            <%= form.collection_select :unit_ids, [], :id, :unit_number, {}, { multiple: true, data: { building_target: "unitSelect" },class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" } %>
+
+          <div class="grid md:grid-cols-1 md:gap-6 mt-10" data-controller="building">
+            <div>
+              <%= form.label :building_ids, "Building Access", class: "text-lg text-gray-500"%>
+              <%= form.collection_select :building_ids, Current.user.buildings, :id, :name, {prompt: "Select Building"}, { data: { action: "change->building#building_change" }, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" } %>
+            </div>
+            <div class="hidden" data-radio-target="showUnit">
+              <%= form.label :unit_ids, "Unit Access", class: "text-lg text-gray-500"%>
+              <%= form.collection_select :unit_ids, [], :id, :unit_number, {}, { data: { building_target: "unitSelect" },class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" } %>
+            </div>
           </div>
         </div>
 

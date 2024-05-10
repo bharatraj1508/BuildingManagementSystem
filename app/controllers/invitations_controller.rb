@@ -24,7 +24,12 @@ class InvitationsController < ApplicationController
   end
 
   def units
-    @target = params[:target]
+    if params.key?(:target)
+      @target = params[:target]
+    else
+      @target1 = params[:target1]
+      @target2 = params[:target2]
+    end
     building = Building.find(params[:bid])
     @units = building.units.pluck(:unit_number, :id)
     respond_to do |format|

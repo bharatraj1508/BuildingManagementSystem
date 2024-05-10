@@ -1,6 +1,6 @@
 class BuildingsController < ApplicationController
 
-    before_action :set_building, except: [:new, :create, :index]
+    before_action :set_building, except: [:new, :create, :index, :unit_users, :building_users]
 
     def new
         @building = Building.new
@@ -46,6 +46,34 @@ class BuildingsController < ApplicationController
             render :index, alert: "Unable to delete the building"
           end
     end
+
+    #these below action is for the stimulus to load building users and building unit user
+
+    def unit_users
+        @target = params[:target]
+        unit = Unit.find(params[:bid])
+        @users = unit.users
+        @users_list = [["Select User", ""]]
+        @users.each do |user|
+            @users_list.push(["#{user.name}, #{user.email}", user.id])    
+        end
+        respond_to do |format|
+          format.turbo_stream
+        end
+      end
+    
+      def building_users
+        @target = params[:target]
+        building = Building.find(params[:bid])
+        @users = building.users
+        @users_list = [["Select User", ""]]
+        @users.each do |user|
+            @users_list.push(["#{user.name}, #{user.email}", user.id])    
+        end
+        respond_to do |format|
+          format.turbo_stream
+        end
+      end
 
     private
 

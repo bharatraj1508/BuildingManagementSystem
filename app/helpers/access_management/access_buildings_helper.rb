@@ -1,0 +1,2 @@
+module AccessManagement::AccessBuildingsHelper
+end

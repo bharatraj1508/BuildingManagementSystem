@@ -3,6 +3,12 @@
 // ./bin/rails generate stimulus controllerName
 
 import { application } from "./application";
-import BuildingController from "./building_controller";
 
+import BuildingController from "./building_controller";
 application.register("building", BuildingController);
+
+import SelectController from "./select_controller";
+application.register("select", SelectController);
+
+import RadioController from "./radio_controller";
+application.register("radio", RadioController);

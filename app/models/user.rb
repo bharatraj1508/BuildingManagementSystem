@@ -74,4 +74,8 @@ class User < ApplicationRecord
     events.create! action: "email_verified"
   end
 
+  def full_name_with_email
+    "#{first_name} #{last_name} - #{email}"
+  end
+
 end

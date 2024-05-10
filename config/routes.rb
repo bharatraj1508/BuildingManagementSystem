@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
   
   get  "sign_in", to: "sessions#new"
@@ -29,7 +30,21 @@ Rails.application.routes.draw do
 
   resources :units
   post "search_unit", to: "units#search_unit"
+
+  namespace :access_management do
+    resource :access_units, only: [:new, :create, :destroy]
+    resource :access_buildings, only: [:new, :create, :destroy]
+    resource :assign_units, only: [:new, :create, :destroy]
+    resource :assign_buildings, only: [:new, :create, :destroy]
+  end
   
+  resource :access_management, only: [:create, :show, :destroy]
+  get "unit_access", to: "access_managements#unit_access"
+  get "building_access", to: "access_managements#building_access"
+
+  get "unit/users", to: "buildings#unit_users"
+  get "building/users", to: "buildings#building_users"
+
   get "home", to:"home#index"
   
 end

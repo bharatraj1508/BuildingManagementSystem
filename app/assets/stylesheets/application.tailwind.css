@@ -1,12 +1,15 @@
-@tailwind base;
+@import "tailwindcss/base";
 
-@tailwind components;
+@import "tailwindcss/components";
 
-@import "components/form.css";
+/* Import custom css files from 'components/filename.css */
+@import "./components/form";
+@import "./components/tom_select";
+@import "./components/select";
 
-@tailwind utilities;
+/* Utilities */
+@import "tailwindcss/utilities";
 
-@import "~tailwindcss/base";
 /* 
    Add the following markup AFTER your import statements
    Notice: this style contains only the rules for pagy-nav
